@@ -13,11 +13,11 @@ class Container extends Component {
     })
   } 
   fileUploadHandler = e=>{
-    e.preventDefault();
     const fd = new FormData();
     fd.append('image', this.state.selectedFile,this.state.selectedFile.name);
     console.log(fd)
-    axios.post('https://vyq3zznjx3.execute-api.ap-northeast-1.amazonaws.com/default/bohlfunc/',fd);
+    axios.post('https://vyq3zznjx3.execute-api.ap-northeast-1.amazonaws.com/default/bohlfunc/',fd).then((response)=>{console.log(response);}).catch((e)=>{console.log(e);})
+    e.preventDefault();
   }
   render(){
     return (
