@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, {Component}from 'react';
-
-
+import qs from 'qs';
 class Container extends Component {
   state ={
     selectedFile: null,
@@ -26,14 +25,19 @@ class Container extends Component {
   }
   dataRegister = e =>{
     let num = Number(e.target.value)
-    console.log(this.state.results[num])
+    let data = this.state.results[num]
+    let uio = window.location.search.substring(1)
+    let ui = uio.split('=')
+    data.user_id = ui[1]
+    console.log(data)
     this.setState({
-      f_data: this.state.results[num]
+      f_data: data
     })
   }
   dataSubmitter = e => {
     e.preventDefault();
-    console.log(e.target.value);
+    const fd=qs.stringify(this.state.f_data)
+    axios.post('http://127.0.0.1:8000/meals/register/',fd).then((res)=>{console.log(res);})
   }
   render(){
     const rs = this.state.results.map((item,index)=><p><label key={index}><input type="radio" value={index} onChange={this.dataRegister} checked={this.state.f_data['food_name'] === item.food_name}/>{item.food_name}</label></p>)
