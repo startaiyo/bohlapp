@@ -37,7 +37,7 @@ class Container extends Component {
   dataSubmitter = e => {
     e.preventDefault();
     const fd=qs.stringify(this.state.f_data)
-    axios.post('http://127.0.0.1:8000/meals/register/',fd).then((res)=>{console.log(res);})
+    axios.post('http://bohlapp.herokuapp.com/meals/register/',fd).then((res)=>{console.log(res);})
   }
   render(){
     const rs = this.state.results.map((item,index)=><p><label key={index}><input type="radio" value={index} onChange={this.dataRegister} checked={this.state.f_data['food_name'] === item.food_name}/>{item.food_name}</label></p>)
@@ -47,12 +47,13 @@ class Container extends Component {
           <label htmlFor="img">画像</label>
           <input id="img" type="file" onChange={this.fileSelectedHandler} encType="image/jpeg"/>
           <button onClick={this.fileUploadHandler}>send</button>
-          <button onClick={this.dataGetter}>get</button>
+          <button onClick={this.dataGetter}>栄養データを取得</button>
       </form>
       <form onSubmit={this.dataSubmitter}>
         <p>{rs}</p>
         <button>今日の食事を更新</button>
       </form>
+      <a href="https://bohlapp.herokuapp.com/meals/">食事登録表に戻る</a>
     </div>
    );
   }
