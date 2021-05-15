@@ -37,7 +37,7 @@ class Container extends Component {
   dataSubmitter = e => {
     e.preventDefault();
     const fd=qs.stringify(this.state.f_data)
-    axios.post('http://bohlapp.herokuapp.com/meals/register/',fd).then((res)=>{console.log(res);})
+    axios.post('https://bohlapp.herokuapp.com/meals/register/',fd).then((res)=>{console.log(res);})
   }
   render(){
     const rs = this.state.results.map((item,index)=><p><label key={index}><input type="radio" value={index} onChange={this.dataRegister} checked={this.state.f_data['food_name'] === item.food_name}/>{item.food_name}</label></p>)
