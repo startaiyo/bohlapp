@@ -6,7 +6,8 @@ class Container extends Component {
     selectedFile: null,
     keyname: null,
     results: [],
-    f_data: []
+    f_data: [],
+    msg: null,
   }
   fileSelectedHandler = event => {
     this.setState({
@@ -16,12 +17,12 @@ class Container extends Component {
   fileUploadHandler = e =>{
     const fd = new FormData();
     fd.append('image', this.state.selectedFile,this.state.selectedFile.name);
-    axios.post('https://vyq3zznjx3.execute-api.ap-northeast-1.amazonaws.com/default/bohlfunc/',fd).then((response)=>{console.log(response); this.setState({keyname: response.data['key']})}).then(()=>{setTimeout(()=>{axios.get(`https://vyq3zznjx3.execute-api.ap-northeast-1.amazonaws.com/default/bohlfunc/${this.state.keyname}`).then( (res)=>{ console.log(res.data); this.setState({results: res.data})})},10000)}).catch((e)=>{console.log(e);})
+    axios.post('https://vyq3zznjx3.execute-api.ap-northeast-1.amazonaws.com/default/bohlfunc/',fd).then((response)=>{console.log(response); this.setState({keyname: response.data['key'], msg: "ロード中..."})}).then(()=>{setTimeout(()=>{axios.get(`https://vyq3zznjx3.execute-api.ap-northeast-1.amazonaws.com/default/bohlfunc/${this.state.keyname}`).then( (res)=>{ console.log(res.data); this.setState({results: res.data, msg: null})})},10000)}).catch((e)=>{console.log(e);})
     e.preventDefault();
   }
   dataGetter = e =>{
     e.preventDefault();
-    axios.get(`https://vyq3zznjx3.execute-api.ap-northeast-1.amazonaws.com/default/bohlfunc/${this.state.keyname}`).then( (res)=>{ console.log(res.data); this.setState({results: res.data})})
+    axios.get(`https://vyq3zznjx3.execute-api.ap-northeast-1.amazonaws.com/default/bohlfunc/${this.state.keyname}`).then( (res)=>{ console.log(res.data); this.setState({results: res.data, msg: null})})
   }
   dataRegister = e =>{
     let num = Number(e.target.value)
@@ -41,6 +42,7 @@ class Container extends Component {
   }
   render(){
     const rs = this.state.results.map((item,index)=><p><label key={index}><input type="radio" value={index} onChange={this.dataRegister} checked={this.state.f_data['food_name'] === item.food_name}/>{item.food_name}</label></p>)
+    const msg = this.state.msg
     return (
     <div> 
       <form>
@@ -50,6 +52,7 @@ class Container extends Component {
           <button onClick={this.dataGetter}>栄養データを取得</button>
       </form>
       <form onSubmit={this.dataSubmitter}>
+        <h4>{msg}</h4>
         <p>{rs}</p>
         <button>今日の食事を更新</button>
       </form>
