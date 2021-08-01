@@ -16,8 +16,9 @@ class Container extends Component {
   } 
   fileUploadHandler = e =>{
     const fd = new FormData();
+    let dg;
     fd.append('image', this.state.selectedFile,this.state.selectedFile.name);
-    axios.post('https://vyq3zznjx3.execute-api.ap-northeast-1.amazonaws.com/default/bohlfunc/',fd).then((response)=>{console.log(response); this.setState({keyname: response.data['key'], msg: "ロード中..."})}).then(()=>{setInterval(()=>{this.dataGetter(); if(this.state.msg==null){clearInterval(this.dataGetter);}},10000)}).catch((e)=>{console.log(e);})
+    axios.post('https://vyq3zznjx3.execute-api.ap-northeast-1.amazonaws.com/default/bohlfunc/',fd).then((response)=>{console.log(response); this.setState({keyname: response.data['key'], msg: "ロード中..."})}).then(()=>{setInterval(()=>{dg = this.dataGetter(); if(this.state.msg==null){clearInterval(dg);}},10000)}).catch((e)=>{console.log(e);})
     e.preventDefault();
   }
   dataGetter = e =>{
