@@ -17,7 +17,7 @@ class Container extends Component {
   fileUploadHandler = e =>{
     const fd = new FormData();
     fd.append('image', this.state.selectedFile,this.state.selectedFile.name);
-    axios.post('https://vyq3zznjx3.execute-api.ap-northeast-1.amazonaws.com/default/bohlfunc/',fd).then((response)=>{console.log(response); this.setState({keyname: response.data['key'], msg: "ロード中..."})}).then(()=>{setInterval(()=>{this.dataGetter(); if(this.state.msg===null){clearInterval(this.dataGetter);}},10000)}).catch((e)=>{console.log(e);})
+    axios.post('https://vyq3zznjx3.execute-api.ap-northeast-1.amazonaws.com/default/bohlfunc/',fd).then((response)=>{console.log(response); this.setState({keyname: response.data['key'], msg: "ロード中..."})}).then(()=>{setInterval(()=>{this.dataGetter(); if(this.state.msg==null){clearInterval(this.dataGetter);}},10000)}).catch((e)=>{console.log(e);})
     e.preventDefault();
   }
   dataGetter = e =>{
@@ -49,7 +49,6 @@ class Container extends Component {
           <label htmlFor="img">画像</label>
           <input id="img" type="file" onChange={this.fileSelectedHandler} encType="image/jpeg"/>
           <button onClick={this.fileUploadHandler}>send</button>
-          <button onClick={this.dataGetter}>栄養データを取得</button>
       </form>
       <form onSubmit={this.dataSubmitter}>
         <h4>{msg}</h4>
