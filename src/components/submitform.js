@@ -17,11 +17,11 @@ class Container extends Component {
   fileUploadHandler = e =>{
     const fd = new FormData();
     fd.append('image', this.state.selectedFile,this.state.selectedFile.name);
-    axios.post('https://vyq3zznjx3.execute-api.ap-northeast-1.amazonaws.com/default/bohlfunc/',fd).then((response)=>{console.log(response); this.setState({keyname: response.data['key'], msg: "ロード中..."})}).then(()=>{setTimeout(()=>{axios.get(`https://vyq3zznjx3.execute-api.ap-northeast-1.amazonaws.com/default/bohlfunc/${this.state.keyname}`).then( (res)=>{ console.log(res.data); this.setState({results: res.data, msg: null})})},10000)}).catch((e)=>{console.log(e);})
+    axios.post('https://vyq3zznjx3.execute-api.ap-northeast-1.amazonaws.com/default/bohlfunc/',fd).then((response)=>{console.log(response); this.setState({keyname: response.data['key'], msg: "ロード中..."})}).then(()=>{setInterval(()=>{dataGetter; if(this.state.msg===null){clearInterval(dataGetter);}})},10000).catch((e)=>{console.log(e);})
     e.preventDefault();
   }
   dataGetter = e =>{
-    e.preventDefault();
+    // e.preventDefault();
     axios.get(`https://vyq3zznjx3.execute-api.ap-northeast-1.amazonaws.com/default/bohlfunc/${this.state.keyname}`).then( (res)=>{ console.log(res.data); this.setState({results: res.data, msg: null})})
   }
   dataRegister = e =>{

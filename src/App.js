@@ -7,7 +7,7 @@ import Results from './components/nutresult';
 const App = () => {
 
   return(
-　　<div>
+  <div>
     <Container/>
     <Results/>
    </div>
